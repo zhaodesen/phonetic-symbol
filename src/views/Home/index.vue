@@ -26,6 +26,7 @@ const vowel = [
   '/ʊr/',
   '/ɔr/',
   '/ɑr/',
+  '/iə/',
 ]
 const consonant = [
   '/p/',
@@ -54,7 +55,16 @@ const consonant = [
   '/l/',
 ]
 const vowels = ref(vowel)
+const audio = ref()
 const consonants = ref(consonant)
+const http = 'http://zds.dexiaoye.com/'
+const regex = /\//g
+function play(phonetic: string) {
+  const symbol = phonetic.replace(regex, '')
+  audio.value.src = `${http}${symbol}.mp3`
+  audio.value.currentTime = 0
+  audio.value.play()
+}
 </script>
 
 <template>
@@ -66,12 +76,13 @@ const consonants = ref(consonant)
       </h1>
     </div>
     <article class="project-grid" lg:grid-clos-3 mx-auto max-w-500 w-max py-2 grid="~ cols-1 md:cols-8 gap-4">
-      <section v-for="(item, index) in vowels" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400>
+      <section v-for="(item, index) in vowels" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400 @click="play(item)">
         {{ item }}
       </section>
-      <section v-for="(item, index) in consonants" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400>
+      <section v-for="(item, index) in consonants" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400 @click="play(item)">
         {{ item }}
       </section>
+      <audio ref="audio" />
     </article>
   </main>
 </template>
