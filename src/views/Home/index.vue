@@ -1,67 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import Header from './components/Header.vue'
+import { CONSONANT, RESOURCE_ADDRESS, VOWEL } from '@/const/index'
 
-const vowel = [
-  '/i/',
-  '/ɪ/',
-  '/u/',
-  '/ʊ/',
-  '/ɛ/',
-  '/ɝ/',
-  '/ə/',
-  '/ɚ/',
-  '/ʌ/',
-  '/ɔ/',
-  '/æ/',
-  '/ɑ/',
-  '/e/',
-  '/аɪ/',
-  '/ɔɪ/',
-  '/аʊ/',
-  '/o/',
-  '/ɪə/',
-  '/ɪr/',
-  '/ɛr/',
-  '/ʊr/',
-  '/ɔr/',
-  '/ɑr/',
-  '/iə/',
-]
-const consonant = [
-  '/p/',
-  '/b/',
-  '/t/',
-  '/d/',
-  '/k/',
-  '/g/',
-  '/m/',
-  '/n/',
-  '/ŋ/',
-  '/f/',
-  '/v/',
-  '/s/',
-  '/z/',
-  '/θ/',
-  '/ð/',
-  '/ʃ/',
-  '/ʒ/',
-  '/h/',
-  '/ʧ/',
-  '/ʤ/',
-  '/w/',
-  '/r/',
-  '/j/',
-  '/l/',
-]
-const vowels = ref(vowel)
 const audio = ref()
-const consonants = ref(consonant)
-const http = 'http://zds.dexiaoye.com/'
-const regex = /\//g
+const vowel = ref(VOWEL)
+const consonant = ref(CONSONANT)
+
 function play(phonetic: string) {
-  const symbol = phonetic.replace(regex, '')
-  audio.value.src = `${http}${symbol}.mp3`
+  audio.value.src = `${RESOURCE_ADDRESS}${phonetic}.mp3`
   audio.value.currentTime = 0
   audio.value.play()
 }
@@ -76,11 +23,11 @@ function play(phonetic: string) {
       </h1>
     </div>
     <article class="project-grid" lg:grid-clos-3 mx-auto max-w-500 w-max py-2 grid="~ cols-1 md:cols-8 gap-4">
-      <section v-for="(item, index) in vowels" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400 @click="play(item)">
-        {{ item }}
+      <section v-for="(item, index) in vowel" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400 @click="play(item.name)">
+        {{ item.label }}
       </section>
-      <section v-for="(item, index) in consonants" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400 @click="play(item)">
-        {{ item }}
+      <section v-for="(item, index) in consonant" :key="index" class="item" relative flex cursor-pointer items-center justify-center hover:text-teal-400 @click="play(item.name)">
+        {{ item.label }}
       </section>
       <audio ref="audio" />
     </article>
